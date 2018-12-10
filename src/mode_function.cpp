@@ -26,7 +26,7 @@ using namespace Rcpp;
 //' @export
 // [[Rcpp::export]]
 Rcpp::List emp_mode(std::vector<double> data, 
-                         int threshold = 1000, 
+                    Rcpp::Nullable<int> threshold_ = R_NilValue, 
                              bool smooth = true, 
                              String smooth_option = "optimalOfPdf", 
                              Rcpp::Nullable<double> fix_lower = R_NilValue, 
@@ -39,6 +39,7 @@ Rcpp::List emp_mode(std::vector<double> data,
 // Load data ---------------------------
       emp_mode_class * new_class = new emp_mode_class(data);
 // Set subsample size ---------------------------
+      int threshold = threshold_.isNull() ? data.size() : Rcpp::as<int>(threshold_) ;
       new_class->set_threshold(threshold);
 // Find emprirical mode ---------------------------
       Rcpp::List res = new_class->emp_mode_c(fix_lower.isNull(), 
