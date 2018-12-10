@@ -7,7 +7,7 @@
 #'  
 #' 
 #' @param data A univariate sample data.
-#' @param threshold A number of subsample size used in Anderson-Darling tests, and default is 100L.
+#' @param threshold A number of subsample size used in Anderson-Darling tests, and default is the size of sample data.
 #' @param smooth A indicator of if performing Bernstein polynomials smoothing or not; If TRUE (default), adapt Bernstein polynomials smoothing.
 #' @param smooth_option A name of method of finding maximum based on the Bernstein polynomials density, and "optimalOfPdf" (default) indicates finding optimum on the smoothing density.
 #' @param fix_lower A value of the lower bound of the the sample data; If NULL (default), set min{0, the minimum of the sample data}; Set a particualr value otherwise.
