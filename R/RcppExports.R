@@ -23,6 +23,6 @@
 #' emp_mode(data, threshold = m_threshold)
 #' @export
 emp_mode <- function(data, threshold = 1000L, smooth = TRUE, smooth_option = "optimalOfPdf", fix_lower = NULL, fix_upper = NULL, m_degree = NULL, m_knots = NULL) {
-    .Call(`_modeFinder_emp_mode`, data, threshold, smooth, smooth_option, fix_lower, fix_upper, m_degree, m_knots)
+    .Call('_modeFinder_emp_mode', PACKAGE = 'modeFinder', data, threshold, smooth, smooth_option, fix_lower, fix_upper, m_degree, m_knots)
 }
 

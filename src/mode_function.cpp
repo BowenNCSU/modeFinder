@@ -26,7 +26,7 @@ using namespace Rcpp;
 //' @export
 // [[Rcpp::export]]
 Rcpp::List emp_mode(std::vector<double> data, 
-                         int threshold = 1000L, 
+                         int threshold = 1000, 
                              bool smooth = true, 
                              String smooth_option = "optimalOfPdf", 
                              Rcpp::Nullable<double> fix_lower = R_NilValue, 

@@ -2732,7 +2732,7 @@ public:
   void lbfgsb(double *x, double *l, double *u, int *nbd, char *msg, int *fncount, int *grcount, 
               double *Fmin, int *fail,
               int n = 1, int m = 5, double factr = 1e7, double pgtol = 0.,
-              int maxit = 100L, int trace = 0, int nREPORT = 10)
+              int maxit = 100, int trace = 0, int nREPORT = 10)
   {
     char task[60];
     double f, *g,  *wa;
