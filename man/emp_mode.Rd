@@ -11,7 +11,7 @@ emp_mode(data, threshold = NULL, smooth = TRUE,
 \arguments{
 \item{data}{A univariate sample data.}
 
-\item{threshold}{A number of subsample size used in Anderson-Darling tests, and default is the size of the sample data.}
+\item{threshold}{A number of subsample size used in Anderson-Darling tests, and default is 100L.}
 
 \item{smooth}{A indicator of if performing Bernstein polynomials smoothing or not; If TRUE (default), adapt Bernstein polynomials smoothing.}
 
