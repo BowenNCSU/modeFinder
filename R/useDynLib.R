@@ -1,0 +1,2 @@
+#' @useDynLib modeFinder
+NULL
