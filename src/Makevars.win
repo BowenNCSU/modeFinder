@@ -28,9 +28,7 @@ CXX11STD = -std=c++11
 CXX14 = g++
 CXX14STD = -std=c++14
 
-CC=ccache clang -Qunused-arguments
-CXX=ccache clang++ -Qunused-arguments
-CCACHE_CPP2=yes
+CXX=clang++
 
 
 
