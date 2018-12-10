@@ -1,11 +1,11 @@
 Package: modeFinder
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title: Mode estimation via Bernstein polynomials
 Version: 1.0
 Date: 2018-11-29
 Author: Bowen Liu
 Maintainer: Bowen Liu <bliu17@ncsu.edu>
-Description: One paragraph description of what the package does as one or more full sentences.
+Description: Compute the univariate empirical mode via Bernstein polynomials.
 License: GPL (>= 2)
 Depends: Rcpp (>= 0.12.8)
 Imports: Rcpp (>= 0.12.19)
