@@ -16,11 +16,10 @@
 #' @param m_knots A number of knots in finding the maximum of Bernstein polynomials density; If NA (default), set n / log(n); Set a particualr value otherwise.
 #' @return The empirical mode of \code{data}, the degree of Bernstein polynomials used and the corresponding p-value of the Anderson-Darling test based on the subsample and Bernstein polynomials.
 #' @examples
-#' m_threshold = 1e3
 #' n = 1e6
 #' set.seed(1)
 #' data = rbeta(n, 2, 5)
-#' emp_mode(data, threshold = m_threshold)
+#' emp_mode(data)
 #' @export
 emp_mode <- function(data, threshold = NULL, smooth = TRUE, smooth_option = "optimalOfPdf", fix_lower = NULL, fix_upper = NULL, m_degree = NULL, m_knots = NULL) {
     .Call('_modeFinder_emp_mode', PACKAGE = 'modeFinder', data, threshold, smooth, smooth_option, fix_lower, fix_upper, m_degree, m_knots)

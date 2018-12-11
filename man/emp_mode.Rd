@@ -32,9 +32,8 @@ The empirical mode of \code{data}, the degree of Bernstein polynomials used and 
 Compute the univariate empirical mode via Bernstein polynomials.
 }
 \examples{
-m_threshold = 1e3
 n = 1e6
 set.seed(1)
 data = rbeta(n, 2, 5)
-emp_mode(data, threshold = m_threshold)
+emp_mode(data)
 }

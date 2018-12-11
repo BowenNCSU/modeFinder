@@ -2349,15 +2349,15 @@ static double AD(int n,double z){
 
 
 
-static double ADtest(int n, double *x)
-{ int i;
-  double t,z=0;
-  for(i=0;i<n;i++)   {
-    t=x[i]*(1.-x[n-1-i]);
-    z=z-(i+i+1)*log(t);
-  }
-  return AD(n,-n+z/n);
-}
+// static double ADtest(int n, double *x)
+// { int i;
+//   double t,z=0;
+//   for(i=0;i<n;i++)   {
+//     t=x[i]*(1.-x[n-1-i]);
+//     z=z-(i+i+1)*log(t);
+//   }
+//   return AD(n,-n+z/n);
+// }
 
 
 
@@ -2367,11 +2367,11 @@ static double ADtest(int n, double *x)
 ///////////////////////
 class emp_mode_class {
 public:
-  emp_mode_class(std::vector<double> data_){
+  emp_mode_class(std::vector<double> & data_){
     data = data_;
     n = data_.size();
     std::sort(data.begin(), data.end());
-    m_threshold = 1000;
+    m_threshold = n;
   }
 
   ///////////////////
@@ -2428,8 +2428,8 @@ public:
       return summation;
     } else {
       // found
-      double u_post = u_map_cdf_bern[m];
-      std::vector<double> coef_vec_cdf_bern = coef_map_cdf_bern[m];
+      double & u_post = u_map_cdf_bern[m];
+      std::vector<double> & coef_vec_cdf_bern = coef_map_cdf_bern[m];
       // sum.cdf.bern <- crossprod(coef.ls.cdf.bern[[which(m.vec.cdf.bern == m)]], 
       // (u / u.post) ^ (0 : m) * ((1 - u) / (1 - u.post)) ^ (m : 0))
       double summation = 0;
@@ -2445,7 +2445,7 @@ public:
         // coef.ls.cdf.bern[[which(m.vec.cdf.bern == m)]] <<- coef.vec.cdf.bern
         // return(sum(exp(coef.vec.cdf.bern)))
         summation = 0;
-        std::vector<double> Fn_vec_cdf_bern = Fn_map_cdf_bern[m];
+        std::vector<double> & Fn_vec_cdf_bern = Fn_map_cdf_bern[m];
         double dbeta_log = m * log(1 - u);
         for(int i = 0; i < (m + 1); i++){
           // double dbeta_log = R::dbeta(u, i + 1, m - i + 1, 1);
@@ -2456,8 +2456,8 @@ public:
           coef_vec_cdf_bern[i] = log(Fn_value) + dbeta_log;
           summation += Fn_value * exp(dbeta_log);
         }        
-        coef_map_cdf_bern[m] = coef_vec_cdf_bern;
-        u_map_cdf_bern[m] = u;
+        // coef_map_cdf_bern[m] = coef_vec_cdf_bern;
+        u_post = u;
         // return(sum(Fn(0 : m / m) * dbeta(u, 0 : m + 1, m - (0 : m) + 1)) / (m + 1)) # 1 / (m+2) 
         return summation;          
         
@@ -2468,7 +2468,7 @@ public:
     }
   }
   
-  std::vector<double> cdf_bern_c(std::vector<double> u){
+  std::vector<double> cdf_bern_c(std::vector<double> & u){
     int n = u.size();
     std::vector<double> out(n);
     for(int i = 0; i < n; i++){
@@ -2536,8 +2536,8 @@ public:
       return summation;
     } else {
       // found
-      double u_post = u_map_pdf_bern[m];
-      std::vector<double> coef_vec_pdf_bern = coef_map_pdf_bern[m];
+      double & u_post = u_map_pdf_bern[m];
+      std::vector<double> & coef_vec_pdf_bern = coef_map_pdf_bern[m];
       // sum.pdf.bern <- crossprod(coef.ls.pdf.bern[[which(m.vec.pdf.bern == m)]], 
       // (u / u.post) ^ (0 : m) * ((1 - u) / (1 - u.post)) ^ (m : 0))
       double summation = 0;
@@ -2553,7 +2553,7 @@ public:
         // coef.ls.pdf.bern[[which(m.vec.pdf.bern == m)]] <<- coef.vec.pdf.bern
         // return(sum(exp(coef.vec.pdf.bern)))
         summation = 0;
-        std::vector<double> Fn_vec_pdf_bern = Fn_map_pdf_bern[m];
+        std::vector<double> & Fn_vec_pdf_bern = Fn_map_pdf_bern[m];
         double dbeta_log = log(m) + (m - 1) * log(1 - u);
         
         for(int i = 0; i < m; i++){
@@ -2565,8 +2565,8 @@ public:
           coef_vec_pdf_bern[i] = log(Fn_value) + dbeta_log;
           summation += Fn_value * exp(dbeta_log);
         }        
-        coef_map_pdf_bern[m] = coef_vec_pdf_bern;
-        u_map_pdf_bern[m] = u;
+        // coef_map_pdf_bern[m] = coef_vec_pdf_bern;
+        u_post = u;
         // return(sum(Fn(0 : m / m) * dbeta(u, 0 : m + 1, m - (0 : m) + 1)) / (m + 1)) # 1 / (m+2) 
         return summation;          
         
@@ -2577,7 +2577,7 @@ public:
     }
   }
   
-  std::vector<double> pdf_bern_c(std::vector<double> u){
+  std::vector<double> pdf_bern_c(std::vector<double> & u){
     int n = u.size();
     std::vector<double> out(n);
     for(int i = 0; i < n; i++){
@@ -2669,9 +2669,9 @@ public:
         return summation;
       } else {
         // found
-        double u_post = u_map_dpdf_bern[m];
-        std::vector<double> coef_vec_dpdf_bern = coef_map_dpdf_bern[m];
-        std::vector<bool> sign_vec_dpdf_bern = sign_map_dpdf_bern[m];
+        double & u_post = u_map_dpdf_bern[m];
+        std::vector<double> & coef_vec_dpdf_bern = coef_map_dpdf_bern[m];
+        std::vector<bool> & sign_vec_dpdf_bern = sign_map_dpdf_bern[m];
         // sum.dpdf.bern <- crossprod(coef.ls.dpdf.bern[[which(m.vec.dpdf.bern == m)]], 
         // (u / u.post) ^ (0 : m) * ((1 - u) / (1 - u.post)) ^ (m : 0))
         double summation = 0;
@@ -2682,7 +2682,7 @@ public:
         
         if(isnan(summation)){
           summation = 0;
-          std::vector<double> Fn_vec_dpdf_bern = Fn_map_dpdf_bern[m];
+          std::vector<double> & Fn_vec_dpdf_bern = Fn_map_dpdf_bern[m];
           double dbeta_log = log(m * (m - 1)) + (m - 2) * log(1 - u);
           
           for(int i = 0; i < (m - 1); i++){
@@ -2694,8 +2694,8 @@ public:
             coef_vec_dpdf_bern[i] = log(std::abs(Fn_value)) + dbeta_log;
             summation += Fn_value * exp(dbeta_log);
           }        
-          coef_map_dpdf_bern[m] = coef_vec_dpdf_bern;
-          u_map_dpdf_bern[m] = u;
+          // coef_map_dpdf_bern[m] = coef_vec_dpdf_bern;
+          u_post = u;
           // return(sum(Fn(0 : m / m) * dbeta(u, 0 : m + 1, m - (0 : m) + 1)) / (m + 1)) # 1 / (m+2) 
           return summation;          
           
@@ -2707,7 +2707,7 @@ public:
     }
   
   
-  std::vector<double> dpdf_bern_c(std::vector<double> u){
+  std::vector<double> dpdf_bern_c(std::vector<double> & u){
     int n = u.size();
     std::vector<double> out(n);
     for(int i = 0; i < n; i++){
@@ -2955,9 +2955,20 @@ public:
     for (double alpha = 0.3; alpha <= 0.95; alpha += 0.05) {
       // Rcpp::Rcout << alpha;
       set_m((int) ceil(pow(n, alpha)));
-      std::vector<double> v = cdf_bern_c(newdata);
-      double* x = &v[0];
-      double pvalue_curr = ADtest(newdata.size(), x);
+      // std::vector<double> v = cdf_bern_c(newdata);
+      // double* x = &v[0];
+      // double pvalue_curr = ADtest(newdata.size(), x);
+      
+      int len = newdata.size();
+      // ADtest
+      double t, z = 0;
+      for(int i = 0; i < len; i++)   {
+        t = mix_cdf_c(newdata[i]) * (1. - mix_cdf_c(newdata[len - 1 - i]));
+        z = z - (i + i + 1) * log(t);
+      }
+      double pvalue_curr = AD(len, -len + z / len);
+      
+      
       // double adstat = ADstat(newdata.size(), x);
       if(pvalue_curr > max_pvalue){
         max_pvalue = pvalue_curr;
@@ -2974,7 +2985,7 @@ public:
     double max_density = -1;
     
     double pdfpar_vec[] = {0, 0.5, 1};
-    for(int i = 0; i < 3; i++){
+    for(int i = 0; i < sizeof(pdfpar_vec) / sizeof(pdfpar_vec[0]); ++i){
     try{
       // https://github.com/Microsoft/microsoft-r-open/blob/master/source/src/library/stats/src/optim.c
       double dpar = pdfpar_vec[i]; // 0.5, 1
@@ -2994,7 +3005,7 @@ public:
     }
     
     double pdfilon_vec[] = {0, 0.1, 0.5};
-    for(int i = 0; i < 3; i++){
+    for(int i = 0; i < sizeof(pdfilon_vec) / sizeof(pdfilon_vec[0]); ++i){
       try{
         double dpar = Brent_fmin(0 - pdfilon_vec[i], 1 + pdfilon_vec[i]);
         double val = mix_pdf_c(dpar);
@@ -3005,15 +3016,15 @@ public:
       }catch(...){}
     }
           
-    std::vector<double> Fn_vec_cdf_bern = Fn_map_cdf_bern[(int) ceil(pow(n, max_alpha))];
+    std::vector<double> & Fn_vec_cdf_bern = Fn_map_cdf_bern[m];
     double prob_left = Fn_vec_cdf_bern[2];
     double prob_right = 1 - Fn_vec_cdf_bern[Fn_vec_cdf_bern.size() - 3];
     int cum_index = 0;
-    while(cum_index < n && data[cum_index] <= max_x - 1 / (double) ceil(pow(n, max_alpha))){
+    while(cum_index < n && data[cum_index] <= max_x - 1 / (double) m){
       cum_index ++ ;
     }
     double Fn_value_0 = cum_index / (double) n;
-    while(cum_index < n && data[cum_index] <= max_x + 1 / (double) ceil(pow(n, max_alpha))){
+    while(cum_index < n && data[cum_index] <= max_x + 1 / (double) m){
       cum_index ++ ;
     }
     double Fn_value_1 = cum_index / (double) n;

@@ -18,14 +18,13 @@ using namespace Rcpp;
 //' @param m_knots A number of knots in finding the maximum of Bernstein polynomials density; If NA (default), set n / log(n); Set a particualr value otherwise.
 //' @return The empirical mode of \code{data}, the degree of Bernstein polynomials used and the corresponding p-value of the Anderson-Darling test based on the subsample and Bernstein polynomials.
 //' @examples
-//' m_threshold = 1e3
 //' n = 1e6
 //' set.seed(1)
 //' data = rbeta(n, 2, 5)
-//' emp_mode(data, threshold = m_threshold)
+//' emp_mode(data)
 //' @export
 // [[Rcpp::export]]
-Rcpp::List emp_mode(std::vector<double> data, 
+Rcpp::List emp_mode(std::vector<double> & data, 
                     Rcpp::Nullable<int> threshold = R_NilValue, 
                              bool smooth = true, 
                              String smooth_option = "optimalOfPdf", 

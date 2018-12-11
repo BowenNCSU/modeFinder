@@ -1,8 +1,8 @@
 Package: modeFinder
 Type: Package
 Title: Mode estimation via Bernstein polynomials
-Version: 1.0
-Date: 2018-11-29
+Version: 1.0.2
+Date: 2018-12-11
 Author: Bowen Liu
 Maintainer: Bowen Liu <bliu17@ncsu.edu>
 Description: Compute the univariate empirical mode via Bernstein polynomials.
