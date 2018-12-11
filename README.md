@@ -1,6 +1,6 @@
 # modeFinder
 
-Mode estimation via Bernstein polynomials
+## Mode estimation via Bernstein polynomials
 
 The R function is based on the draft of:
 
