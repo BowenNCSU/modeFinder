@@ -1,3 +1,3 @@
-# mode_finder
+# modeFinder
 
 Mode estimation via Bernstein polynomials
