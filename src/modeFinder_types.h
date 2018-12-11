@@ -2349,15 +2349,15 @@ static double AD(int n,double z){
 
 
 
-// static double ADtest(int n, double *x)
-// { int i;
-//   double t,z=0;
-//   for(i=0;i<n;i++)   {
-//     t=x[i]*(1.-x[n-1-i]);
-//     z=z-(i+i+1)*log(t);
-//   }
-//   return AD(n,-n+z/n);
-// }
+static double ADtest(int n, double *x)
+{ int i;
+  double t,z=0;
+  for(i=0;i<n;i++)   {
+    t=x[i]*(1.-x[n-1-i]);
+    z=z-(i+i+1)*log(t);
+  }
+  return AD(n,-n+z/n);
+}
 
 
 
@@ -2955,18 +2955,18 @@ public:
     for (double alpha = 0.3; alpha <= 0.95; alpha += 0.05) {
       // Rcpp::Rcout << alpha;
       set_m((int) ceil(pow(n, alpha)));
-      // std::vector<double> v = cdf_bern_c(newdata);
-      // double* x = &v[0];
-      // double pvalue_curr = ADtest(newdata.size(), x);
+      std::vector<double> v = cdf_bern_c(newdata);
+      double* x = &v[0];
+      double pvalue_curr = ADtest(newdata.size(), x);
       
-      int len = newdata.size();
-      // ADtest
-      double t, z = 0;
-      for(int i = 0; i < len; i++)   {
-        t = mix_cdf_c(newdata[i]) * (1. - mix_cdf_c(newdata[len - 1 - i]));
-        z = z - (i + i + 1) * log(t);
-      }
-      double pvalue_curr = AD(len, -len + z / len);
+      // int len = newdata.size();
+      // // ADtest
+      // double t, z = 0;
+      // for(int i = 0; i < len; i++)   {
+      //   t = mix_cdf_c(newdata[i]) * (1. - mix_cdf_c(newdata[len - 1 - i]));
+      //   z = z - (i + i + 1) * log(t);
+      // }
+      // double pvalue_curr = AD(len, -len + z / len);
       
       
       // double adstat = ADstat(newdata.size(), x);
