@@ -2985,7 +2985,7 @@ public:
     double max_density = -1;
     
     double pdfpar_vec[] = {0, 0.5, 1};
-    for(int i = 0; i < sizeof(pdfpar_vec) / sizeof(pdfpar_vec[0]); ++i){
+    for(int i = 0; (unsigned) i < sizeof(pdfpar_vec) / sizeof(pdfpar_vec[0]); ++i){
     try{
       // https://github.com/Microsoft/microsoft-r-open/blob/master/source/src/library/stats/src/optim.c
       double dpar = pdfpar_vec[i]; // 0.5, 1
@@ -3005,7 +3005,7 @@ public:
     }
     
     double pdfilon_vec[] = {0, 0.1, 0.5};
-    for(int i = 0; i < sizeof(pdfilon_vec) / sizeof(pdfilon_vec[0]); ++i){
+    for(int i = 0; (unsigned) i < sizeof(pdfilon_vec) / sizeof(pdfilon_vec[0]); ++i){
       try{
         double dpar = Brent_fmin(0 - pdfilon_vec[i], 1 + pdfilon_vec[i]);
         double val = mix_pdf_c(dpar);
