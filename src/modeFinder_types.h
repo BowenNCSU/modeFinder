@@ -2957,7 +2957,7 @@ public:
       set_m((int) ceil(pow(n, alpha)));
       std::vector<double> v = cdf_bern_c(newdata);
       double* x = &v[0];
-      double pvalue_curr = ADtest(newdata.size(), x);
+      double pvalue_curr = 1. - ADtest(newdata.size(), x);
       
       // int len = newdata.size();
       // // ADtest
