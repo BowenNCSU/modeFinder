@@ -7,7 +7,7 @@
 #'  
 #' 
 #' @param data A univariate sample data.
-#' @param threshold A number of subsample size used in Anderson-Darling tests, and default is the size of sample data.
+#' @param threshold A number of subsample size used in Anderson-Darling tests, and default is 1e03.
 #' @param smooth A indicator of if performing Bernstein polynomials smoothing or not; If TRUE (default), adapt Bernstein polynomials smoothing.
 #' @param smooth_option A name of method of finding maximum based on the Bernstein polynomials density, and "optimalOfPdf" (default) indicates finding optimum on the smoothing density.
 #' @param fix_lower A value of the lower bound of the the sample data; If NULL (default), set min{0, the minimum of the sample data}; Set a particualr value otherwise.
@@ -21,7 +21,7 @@
 #' data = rbeta(n, 2, 5)
 #' emp_mode(data)
 #' @export
-emp_mode <- function(data, threshold = NULL, smooth = TRUE, smooth_option = "optimalOfPdf", fix_lower = NULL, fix_upper = NULL, m_degree = NULL, m_knots = NULL) {
+emp_mode <- function(data, threshold = 1000L, smooth = TRUE, smooth_option = "optimalOfPdf", fix_lower = NULL, fix_upper = NULL, m_degree = NULL, m_knots = NULL) {
     .Call('_modeFinder_emp_mode', PACKAGE = 'modeFinder', data, threshold, smooth, smooth_option, fix_lower, fix_upper, m_degree, m_knots)
 }
 

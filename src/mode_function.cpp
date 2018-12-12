@@ -9,7 +9,7 @@ using namespace Rcpp;
 //'  
 //' 
 //' @param data A univariate sample data.
-//' @param threshold A number of subsample size used in Anderson-Darling tests, and default is the size of sample data.
+//' @param threshold A number of subsample size used in Anderson-Darling tests, and default is 1e03.
 //' @param smooth A indicator of if performing Bernstein polynomials smoothing or not; If TRUE (default), adapt Bernstein polynomials smoothing.
 //' @param smooth_option A name of method of finding maximum based on the Bernstein polynomials density, and "optimalOfPdf" (default) indicates finding optimum on the smoothing density.
 //' @param fix_lower A value of the lower bound of the the sample data; If NULL (default), set min{0, the minimum of the sample data}; Set a particualr value otherwise.
@@ -25,7 +25,7 @@ using namespace Rcpp;
 //' @export
 // [[Rcpp::export]]
 Rcpp::List emp_mode(std::vector<double> & data, 
-                    Rcpp::Nullable<int> threshold = R_NilValue, 
+                    int threshold = 1000L, 
                              bool smooth = true, 
                              String smooth_option = "optimalOfPdf", 
                              Rcpp::Nullable<double> fix_lower = R_NilValue, 
@@ -38,8 +38,8 @@ Rcpp::List emp_mode(std::vector<double> & data,
 // Load data ---------------------------
       emp_mode_class * new_class = new emp_mode_class(data);
 // Set subsample size ---------------------------
-      int threshold_ = threshold.isNull() ? data.size() : Rcpp::as<int>(threshold) ;
-      new_class->set_threshold(threshold_);
+      // int threshold_ = threshold.isNull() ? data.size() : Rcpp::as<int>(threshold) ;
+      new_class->set_threshold(threshold);
 // Find emprirical mode ---------------------------
       Rcpp::List res = new_class->emp_mode_c(fix_lower.isNull(), 
                                   fix_lower.isNull() ? 0 : Rcpp::as<double>(fix_lower), 

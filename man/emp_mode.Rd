@@ -4,14 +4,14 @@
 \alias{emp_mode}
 \title{Compute the univariate empirical mode via Bernstein polynomials.}
 \usage{
-emp_mode(data, threshold = NULL, smooth = TRUE,
+emp_mode(data, threshold = 1000L, smooth = TRUE,
   smooth_option = "optimalOfPdf", fix_lower = NULL, fix_upper = NULL,
   m_degree = NULL, m_knots = NULL)
 }
 \arguments{
 \item{data}{A univariate sample data.}
 
-\item{threshold}{A number of subsample size used in Anderson-Darling tests, and default is the size of sample data.}
+\item{threshold}{A number of subsample size used in Anderson-Darling tests, and default is 1e03.}
 
 \item{smooth}{A indicator of if performing Bernstein polynomials smoothing or not; If TRUE (default), adapt Bernstein polynomials smoothing.}
 
