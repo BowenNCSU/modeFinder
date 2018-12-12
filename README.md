@@ -5,3 +5,10 @@
 The R function is based on the draft of:
 
 Bowen Liu and Sujit K. Ghosh, *”On empirical estimation of mode based on weakly dependent samples”*, in preparation.
+
+
+
+### Note: 
+
+macOS requires Xcode developer tools otherwise *xcrun: error* flags. Run the following: *xcode-select --install*.
+
