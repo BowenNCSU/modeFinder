@@ -3036,15 +3036,15 @@ public:
       res["optimal pvalue"] = max_pvalue;
       res["mode"] = max_x * (upper - lower) + lower;
     }else if(prob_left > prob_right){
-      res["optimal alpha"] = R_NilValue;
+      res["optimal alpha"] = NA_REAL; // R_NilValue
       res["optimal pvalue"] = max_pvalue;
       res["mode"] = 0 * (upper - lower) + lower;
     }else if(prob_left < prob_right){
-      res["optimal alpha"] = R_NilValue;
+      res["optimal alpha"] = NA_REAL;
       res["optimal pvalue"] = max_pvalue;
       res["mode"] = 1 * (upper - lower) + lower;
     }else{
-      res["optimal alpha"] = R_NilValue;
+      res["optimal alpha"] = NA_REAL;
       res["optimal pvalue"] = max_pvalue;
       res["mode"] = floor(rand() / double(RAND_MAX) * 2) * (upper - lower) + lower;
     }
