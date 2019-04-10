@@ -81,7 +81,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/BowenNCSU/modeFinder">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -95,7 +100,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compute the univariate empirical mode via Bernstein polynomials.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/BowenNCSU/modeFinder/blob/master/R/RcppExports.R'><code>R/RcppExports.R</code></a></small>
     <div class="hidden name"><code>emp_mode.Rd</code></div>
     </div>
 
@@ -105,64 +110,73 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>emp_mode</span>(<span class='no'>data</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>1000L</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>smooth_option</span> <span class='kw'>=</span> <span class='st'>"optimalOfPdf"</span>, <span class='kw'>fix_lower</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fix_upper</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>m_degree</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>m_knots</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>emp_mode</span>(<span class='no'>data</span>, <span class='kw'>fix_lower</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fix_upper</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>smooth_option</span> <span class='kw'>=</span> <span class='st'>"Bernstein"</span>, <span class='kw'>smooth_density</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>density_points</span> <span class='kw'>=</span> <span class='fl'>512L</span>, <span class='kw'>m_degree</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_size</span> <span class='kw'>=</span> <span class='fl'>1000L</span>,
+  <span class='kw'>m_knots</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A univariate sample data.</p></td>
-    </tr>
-    <tr>
-      <th>threshold</th>
-      <td><p>A number of subsample size used in Anderson-Darling tests, and default is 1e03.</p></td>
-    </tr>
-    <tr>
-      <th>smooth</th>
-      <td><p>A indicator of if performing Bernstein polynomials smoothing or not; If TRUE (default), adapt Bernstein polynomials smoothing.</p></td>
-    </tr>
-    <tr>
-      <th>smooth_option</th>
-      <td><p>A name of method of finding maximum based on the Bernstein polynomials density, and "optimalOfPdf" (default) indicates finding optimum on the smoothing density.</p></td>
+      <td><p>An univariate sample data.</p></td>
     </tr>
     <tr>
       <th>fix_lower</th>
-      <td><p>A value of the lower bound of the the sample data; If NULL (default), set min0, the minimum of the sample data; Set a particualr value otherwise.</p></td>
+      <td><p>A lower bound of the support; If <code>NULL</code> (default), set min0, the minimum of the sample data; Set a particualr value otherwise.</p></td>
     </tr>
     <tr>
       <th>fix_upper</th>
-      <td><p>A value of the upper bound of the the sample data; If NULL (default), set max1, the maximum of the sample data; Set a particualr value otherwise.</p></td>
+      <td><p>An upper bound of the support; If <code>NULL</code> (default), set max1, the maximum of the sample data; Set a particualr value otherwise.</p></td>
+    </tr>
+    <tr>
+      <th>smooth</th>
+      <td><p>An indicator of if performing Bernstein polynomials smoothing or not; If <code>TRUE</code> (default), adopt Bernstein polynomials density function; If <code>FALSE</code>, adopt empirical density function without smoothing.</p></td>
+    </tr>
+    <tr>
+      <th>smooth_option</th>
+      <td><p>If <code>smooth = TRUE</code>, an option of smoothing method for empirical density function; <code>"Bernstein"</code> (default) indicates Bernstein polynomials density estimate, and <code>"kernel"</code> the kernel density estimate.</p></td>
+    </tr>
+    <tr>
+      <th>smooth_density</th>
+      <td><p>If <code>smooth = TRUE</code>, an indicator of if output the density function or not; If <code>FALSE</code> (default), only the mode estimate is given; If <code>TRUE</code>, the smooth density function is also included in the output.</p></td>
+    </tr>
+    <tr>
+      <th>density_points</th>
+      <td><p>If <code>smooth = TRUE</code>, a number of equally spaced points for the output density function or not, default is 512.</p></td>
     </tr>
     <tr>
       <th>m_degree</th>
-      <td><p>A number of degree of Bernstein polynomials; If NA (default), set the one with maximal p-value that less than 0.95; Set a particualr value otherwise.</p></td>
+      <td><p>If <code>smooth = TRUE</code> and <code>smooth_option = "Bernstein"</code>, a degree of Bernstein polynomials; If <code>NA</code> (default), pick the one with maximal p-value until exceeding 0.95; Set a particualr value otherwise.</p></td>
+    </tr>
+    <tr>
+      <th>sample_size</th>
+      <td><p>If <code>smooth = TRUE</code> and <code>smooth_option = "Bernstein"</code>, a subsample size used for Anderson-Darling criterion, and default is 1e+03.</p></td>
     </tr>
     <tr>
       <th>m_knots</th>
-      <td><p>A number of knots in finding the maximum of Bernstein polynomials density; If NA (default), set n / log(n); Set a particualr value otherwise.</p></td>
+      <td><p>If <code>smooth = TRUE</code> and <code>smooth_option = "kernel"</code>, a number of knots in finding the maximum of empirical density function; If <code>NA</code> (default), set <code>m_knots</code> = sample size of <code>data</code>; Set a particualr value otherwise.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The empirical mode of <code>data</code>, the degree of Bernstein polynomials used and the corresponding p-value of the Anderson-Darling test based on the subsample and Bernstein polynomials.</p>
+    <p>An empirical mode of <code>data</code>, a degree of Bernstein polynomials adopted with the maximum p-value and the corresponding maximum p-value of the Anderson-Darling criterion based on the subsample and Bernstein polynomials; <code>NA</code> if not applicable.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>n</span> <span class='kw'>=</span> <span class='fl'>1e6</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Beta'>rbeta</a></span>(<span class='no'>n</span>, <span class='fl'>2</span>, <span class='fl'>5</span>)
-<span class='fu'>emp_mode</span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; $`optimal alpha`
+<span class='fu'>emp_mode</span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; The mode estimate is choosen as the maximum point of Bernstein polynomials density estimate.</div><div class='output co'>#&gt; $mode
+#&gt; [1] 0.2007149
+#&gt; 
+#&gt; $`optimal alpha`
 #&gt; [1] 0.35
 #&gt; 
-#&gt; $`optimal pvalue`
+#&gt; $`optimal p-value`
 #&gt; [1] 0.9963385
-#&gt; 
-#&gt; $mode
-#&gt; [1] 0.2007149
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

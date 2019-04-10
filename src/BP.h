@@ -2370,8 +2370,11 @@ public:
   emp_mode_class(std::vector<double> & data_){
     data = data_;
     n = data_.size();
-    std::sort(data.begin(), data.end());
-    m_threshold = n;
+    // std::sort(data.begin(), data.end());
+    subsample_size = 1000;
+    do_choose_m = true;
+    do_density = false;
+    n_points = 512;
   }
 
   ///////////////////
@@ -2381,8 +2384,20 @@ public:
     m = m_;
   }
   
-  void set_threshold(int t_){
-    m_threshold = t_;
+  void set_do_choose_m(bool TorF){
+    do_choose_m = TorF;
+  }
+  
+  void set_do_density(bool TorF){
+    do_density = TorF;
+  }  
+  
+  void set_n_points(int np){
+    n_points = np;
+  }
+  
+  void set_sample_size(int t_){
+    subsample_size = t_;
   }
   
   double mix_cdf_c(double u) {
@@ -2908,29 +2923,22 @@ public:
   
   
   
-  Rcpp::List emp_mode_c(bool l_null, double fix_lower, bool u_null, double fix_upper){
+  Rcpp::List emp_mode_c(double & fix_lower, double & fix_upper){
     Rcpp::List res;
     double min_data = *data.begin();
-    double max_data = data.back();
+    // double max_data = data.back();
     
     if(data.size() == 1){
       res["optimal alpha"] = R_NilValue;
-      res["optimal pvalue"] = R_NilValue;
+      res["optimal p-value"] = R_NilValue;
       res["mode"] = min_data;
+      Rcpp::Rcout << "The sample size is 1 and no smoothing is applied." << std::endl;
       return res;
     }
 
-    double delta = 1 / (double) n; 
-    if(l_null){
-        lower = min_data < 0 ? min_data - delta : 0;
-    }else{
-        lower = fix_lower;
-    }
-    if(u_null){
-        upper = max_data > 1 ? max_data + delta : 1;
-    }else{
-        upper = fix_upper;
-    }   
+    // double delta = 1 / (double) n; 
+    lower = fix_lower;
+    upper = fix_upper;
       
     for(int i = 0; i < n; i++){
       data[i] = (data[i] - lower) / (upper - lower);
@@ -2939,19 +2947,20 @@ public:
     
     
     std::vector<double> newdata;
-    if(n > m_threshold){
-      std::vector<double> newdata_(m_threshold);
-      for(int i = 0 ; i < m_threshold ; i++){
-        newdata_[i] = data[n * (i + 1) / (m_threshold + 1)];
+    if(n > subsample_size){
+      std::vector<double> newdata_(subsample_size);
+      for(int i = 0 ; i < subsample_size ; i++){
+        newdata_[i] = data[n * (i + 1) / (subsample_size + 1)];
       }
       newdata = newdata_;
     }else{
       newdata = data;
     }
     
+    
     double max_pvalue = -1;
     double max_alpha = -1; 
-    
+    if(do_choose_m){
     for (double alpha = 0.3; alpha <= 0.95; alpha += 0.05) {
       // Rcpp::Rcout << alpha;
       set_m((int) ceil(pow(n, alpha)));
@@ -2978,8 +2987,15 @@ public:
         break;
       }
     }
-    
     set_m((int) ceil(pow(n, max_alpha)));
+    }else{
+      std::vector<double> v = cdf_bern_c(newdata);
+      double* x = &v[0];
+      double pvalue_curr = 1. - ADtest(newdata.size(), x);
+      max_pvalue = pvalue_curr;
+    }
+    
+    
     // gradient descent
     double max_x = -1;
     double max_density = -1;
@@ -3001,7 +3017,9 @@ public:
         max_x = dpar;
         max_density = -val;
       }
-    }catch(...){}
+    }catch(std::exception e){
+      Rcpp::Rcout << e.what() << std::endl;
+    }
     }
     
     double pdfilon_vec[] = {0, 0.1, 0.5};
@@ -3013,7 +3031,9 @@ public:
           max_x = dpar;
           max_density = val;
         }
-      }catch(...){}
+      }catch(std::exception e){
+        Rcpp::Rcout << e.what() << std::endl;
+      }
     }
           
     std::vector<double> & Fn_vec_cdf_bern = Fn_map_cdf_bern[m];
@@ -3030,23 +3050,38 @@ public:
     double Fn_value_1 = cum_index / (double) n;
     double prob_mid = Fn_value_1 - Fn_value_0;
     
-    
     if(max_pvalue > 0.05 || (prob_mid > prob_left && prob_mid > prob_right)){
-      res["optimal alpha"] = max_alpha;
-      res["optimal pvalue"] = max_pvalue;
+      Rcpp::Rcout << "The mode estimate is choosen as the maximum point of Bernstein polynomials density estimate." << std::endl;
       res["mode"] = max_x * (upper - lower) + lower;
     }else if(prob_left > prob_right){
-      res["optimal alpha"] = NA_REAL; // R_NilValue
-      res["optimal pvalue"] = max_pvalue;
+      Rcpp::Rcout << "The mode estimate is choosen as a boundary point and Anderson-Darling criterion is not satisfied with p-value less than 0.05." << std::endl;
       res["mode"] = 0 * (upper - lower) + lower;
     }else if(prob_left < prob_right){
-      res["optimal alpha"] = NA_REAL;
-      res["optimal pvalue"] = max_pvalue;
+      Rcpp::Rcout << "The mode estimate is choosen as a boundary point and Anderson-Darling criterion is not satisfied with p-value less than 0.05." << std::endl;
       res["mode"] = 1 * (upper - lower) + lower;
     }else{
-      res["optimal alpha"] = NA_REAL;
-      res["optimal pvalue"] = max_pvalue;
+      Rcpp::Rcout << "The mode estimate is choosen as a boundary point and Anderson-Darling criterion is not satisfied with p-value less than 0.05." << std::endl;
       res["mode"] = floor(rand() / double(RAND_MAX) * 2) * (upper - lower) + lower;
+    }
+    
+    if(do_choose_m){
+      res["optimal alpha"] = max_alpha;
+      res["optimal p-value"] = max_pvalue;
+    }else{
+      res["given degree"] = m;
+      res["p-value"] = max_pvalue;
+    }
+    
+    if(do_density){
+      std::vector<double> x_cord(n_points);
+      for(int i = 0; i < n_points; i++){
+        x_cord[i] = i / (double) n_points;
+      }
+      res["y"] = pdf_bern_c(x_cord);
+      for(int i = 0; i < n_points; i++){
+        x_cord[i] = i / (double) n_points * (upper - lower) + lower;
+      }
+      res["x"] = x_cord;
     }
     
   return res;
@@ -3058,8 +3093,11 @@ public:
   std::vector<double> data;
   int n;
   int m;
-  int m_threshold;
+  int subsample_size;
   double lower, upper;
+  bool do_choose_m;
+  bool do_density;
+  int n_points;
 
   std::map<int, std::vector<double> > coef_map_cdf_bern;
   std::map<int, std::vector<double> > Fn_map_cdf_bern;

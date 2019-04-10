@@ -16,16 +16,23 @@ PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS)
 PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
 CXX = clang++
+## CXX = g++
 CXXSTD = -std=c++11
 CXXFLAGS = -fsanitize=undefined,address -fno-omit-frame-pointer
 
+## CXXFLAGS+=-gdwarf-2
+## DLLFLAGS=
+
 CXX98 = clang++
+## CXX98 = g++
 CXX98STD = -std=c++98
 
 CXX11 = clang++
+## CXX11 = g++
 CXX11STD = -std=c++11
 
 CXX14 = clang++
+## CXX14 = g++
 CXX14STD = -std=c++14
 
 

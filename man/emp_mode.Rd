@@ -4,29 +4,34 @@
 \alias{emp_mode}
 \title{Compute the univariate empirical mode via Bernstein polynomials.}
 \usage{
-emp_mode(data, threshold = 1000L, smooth = TRUE,
-  smooth_option = "optimalOfPdf", fix_lower = NULL, fix_upper = NULL,
-  m_degree = NULL, m_knots = NULL)
+emp_mode(data, fix_lower = NULL, fix_upper = NULL, smooth = TRUE,
+  smooth_option = "Bernstein", smooth_density = FALSE,
+  density_points = 512L, m_degree = NULL, sample_size = 1000L,
+  m_knots = NULL)
 }
 \arguments{
-\item{data}{A univariate sample data.}
+\item{data}{An univariate sample data.}
 
-\item{threshold}{A number of subsample size used in Anderson-Darling tests, and default is 1e03.}
+\item{fix_lower}{A lower bound of the support; If \code{NULL} (default), set min{0, the minimum of the sample data}; Set a particualr value otherwise.}
 
-\item{smooth}{A indicator of if performing Bernstein polynomials smoothing or not; If TRUE (default), adapt Bernstein polynomials smoothing.}
+\item{fix_upper}{An upper bound of the support; If \code{NULL} (default), set max{1, the maximum of the sample data}; Set a particualr value otherwise.}
 
-\item{smooth_option}{A name of method of finding maximum based on the Bernstein polynomials density, and "optimalOfPdf" (default) indicates finding optimum on the smoothing density.}
+\item{smooth}{An indicator of if performing Bernstein polynomials smoothing or not; If \code{TRUE} (default), adopt Bernstein polynomials density function; If \code{FALSE}, adopt empirical density function without smoothing.}
 
-\item{fix_lower}{A value of the lower bound of the the sample data; If NULL (default), set min{0, the minimum of the sample data}; Set a particualr value otherwise.}
+\item{smooth_option}{If \code{smooth = TRUE}, an option of smoothing method for empirical density function; \code{"Bernstein"} (default) indicates Bernstein polynomials density estimate, and \code{"kernel"} the kernel density estimate.}
 
-\item{fix_upper}{A value of the upper bound of the the sample data; If NULL (default), set max{1, the maximum of the sample data}; Set a particualr value otherwise.}
+\item{smooth_density}{If \code{smooth = TRUE}, an indicator of if output the density function or not; If \code{FALSE} (default), only the mode estimate is given; If \code{TRUE}, the smooth density function is also included in the output.}
 
-\item{m_degree}{A number of degree of Bernstein polynomials; If NA (default), set the one with maximal p-value that less than 0.95; Set a particualr value otherwise.}
+\item{density_points}{If \code{smooth = TRUE}, a number of equally spaced points for the output density function or not, default is 512.}
 
-\item{m_knots}{A number of knots in finding the maximum of Bernstein polynomials density; If NA (default), set n / log(n); Set a particualr value otherwise.}
+\item{m_degree}{If \code{smooth = TRUE} and \code{smooth_option = "Bernstein"}, a degree of Bernstein polynomials; If \code{NA} (default), pick the one with maximal p-value until exceeding 0.95; Set a particualr value otherwise.}
+
+\item{sample_size}{If \code{smooth = TRUE} and \code{smooth_option = "Bernstein"}, a subsample size used for Anderson-Darling criterion, and default is 1e+03.}
+
+\item{m_knots}{If \code{smooth = TRUE} and \code{smooth_option = "kernel"}, a number of knots in finding the maximum of empirical density function; If \code{NA} (default), set \code{m_knots} = sample size of \code{data}; Set a particualr value otherwise.}
 }
 \value{
-The empirical mode of \code{data}, the degree of Bernstein polynomials used and the corresponding p-value of the Anderson-Darling test based on the subsample and Bernstein polynomials.
+An empirical mode of \code{data}, a degree of Bernstein polynomials adopted with the maximum p-value and the corresponding maximum p-value of the Anderson-Darling criterion based on the subsample and Bernstein polynomials; \code{NA} if not applicable.
 }
 \description{
 Compute the univariate empirical mode via Bernstein polynomials.
