@@ -72,6 +72,11 @@
 <a href="#mode-estimation-via-bernstein-polynomials" class="anchor"></a>Mode estimation via Bernstein polynomials</h2>
 <p>The R function is based on the draft of:</p>
 <p>Bowen Liu and Sujit K. Ghosh, <em>”On empirical estimation of mode based on weakly dependent samples”</em>, in preparation.</p>
+</div>
+<div id="simple-empirical-mode-estimation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#simple-empirical-mode-estimation" class="anchor"></a>Simple empirical mode estimation</h2>
+<p>It is natural to estimate the population distribution function by the empirical distribution function, $F_n$ given by $$ F_n = \frac{1}{n} \sum^n_{i = 1} I {X_i \leq x} $$ and for any $X^<em>$ such that $X^{(i)} &lt; X^</em> &lt; X^{(i + 1)}$, $i = 1, 2, \dots, n$, the slope of the empirical distribution function can be approximated by $$ \frac{ F_n (X^{(i + 1)}) - F_n (X^{(i)})}{X^{(i + 1)} - X^{(i)}}. $$ Consequently, we can give a simple mode estimator, $u^{(\hat{k})}$ based on the empirical distribution function by $$ \hat{k} = \underset{0 \leq i \leq m^* - 1}{argmax} \frac{ F_n (u^{(i + 1)}) - F_n (u^{(i)})}{u^{(i + 1)} - u^{(i)}}. $$ where ${u^{(1)}, u^{(2)}, \dots, u^{(m^<em>)}} = { \frac{1}{m^</em>}, \frac{2}{m^<em>}, \dots, \frac{m^</em>}{m^*}}$. However, the simple empirical mode estimation does not collaborate with the possible smoothness characteristics of the underlying distribution function.</p>
 <div id="note" class="section level3">
 <h3 class="hasAnchor">
 <a href="#note" class="anchor"></a>Note:</h3>

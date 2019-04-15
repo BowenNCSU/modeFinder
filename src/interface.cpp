@@ -10,9 +10,10 @@ using namespace Rcpp;
 
 //' Compute the univariate empirical mode via Bernstein polynomials.
 //' 
-//' 
+//' Compute the empirical mode estimate based on Bernstein polynomials density function with automated mechanism of choosing appropriate degree of Bernstein polynomials.
 //'  
-//' 
+//' Based on the smooth options, this R function returns either simple empirical mode estimate, kenerl density mode estimate or Bernstein polynomials based mode estimate (default).
+//'  
 //' @param data An univariate sample data.
 //' @param fix_lower A lower bound of the support; If \code{NULL} (default), set min{0, the minimum of the sample data}; Set a particualr value otherwise.
 //' @param fix_upper An upper bound of the support; If \code{NULL} (default), set max{1, the maximum of the sample data}; Set a particualr value otherwise.
@@ -28,7 +29,12 @@ using namespace Rcpp;
 //' n = 1e6
 //' set.seed(1)
 //' data = rbeta(n, 2, 5)
+//' ## Return Bernstein polynomials based mode estimate
 //' emp_mode(data)
+//' ## Return kenerl density mode estimate
+//' emp_mode(data, smooth_option = "kernel")
+//' ## Return simple empirical mode estimate
+//' emp_mode(data, smooth = FALSE) 
 //' @export
 // [[Rcpp::export]]
 Rcpp::List emp_mode(std::vector<double> data, 

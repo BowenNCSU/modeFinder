@@ -34,11 +34,18 @@ emp_mode(data, fix_lower = NULL, fix_upper = NULL, smooth = TRUE,
 An empirical mode of \code{data}, a degree of Bernstein polynomials adopted with the maximum p-value and the corresponding maximum p-value of the Anderson-Darling criterion based on the subsample and Bernstein polynomials; \code{NA} if not applicable.
 }
 \description{
-Compute the univariate empirical mode via Bernstein polynomials.
+Compute the empirical mode estimate based on Bernstein polynomials density function with automated mechanism of choosing appropriate degree of Bernstein polynomials.
+ 
+Based on the smooth options, this R function returns either simple empirical mode estimate, kenerl density mode estimate or Bernstein polynomials based mode estimate (default).
 }
 \examples{
 n = 1e6
 set.seed(1)
 data = rbeta(n, 2, 5)
+## Return Bernstein polynomials based mode estimate
 emp_mode(data)
+## Return kenerl density mode estimate
+emp_mode(data, smooth_option = "kernel")
+## Return simple empirical mode estimate
+emp_mode(data, smooth = FALSE) 
 }

@@ -3,9 +3,10 @@
 
 #' Compute the univariate empirical mode via Bernstein polynomials.
 #' 
-#' 
+#' Compute the empirical mode estimate based on Bernstein polynomials density function with automated mechanism of choosing appropriate degree of Bernstein polynomials.
 #'  
-#' 
+#' Based on the smooth options, this R function returns either simple empirical mode estimate, kenerl density mode estimate or Bernstein polynomials based mode estimate (default).
+#'  
 #' @param data An univariate sample data.
 #' @param fix_lower A lower bound of the support; If \code{NULL} (default), set min{0, the minimum of the sample data}; Set a particualr value otherwise.
 #' @param fix_upper An upper bound of the support; If \code{NULL} (default), set max{1, the maximum of the sample data}; Set a particualr value otherwise.
@@ -21,7 +22,12 @@
 #' n = 1e6
 #' set.seed(1)
 #' data = rbeta(n, 2, 5)
+#' ## Return Bernstein polynomials based mode estimate
 #' emp_mode(data)
+#' ## Return kenerl density mode estimate
+#' emp_mode(data, smooth_option = "kernel")
+#' ## Return simple empirical mode estimate
+#' emp_mode(data, smooth = FALSE) 
 #' @export
 emp_mode <- function(data, fix_lower = NULL, fix_upper = NULL, smooth = TRUE, smooth_option = "Bernstein", smooth_density = FALSE, density_points = 512L, m_degree = NULL, sample_size = 1000L, m_knots = NULL) {
     .Call('_modeFinder_emp_mode', PACKAGE = 'modeFinder', data, fix_lower, fix_upper, smooth, smooth_option, smooth_density, density_points, m_degree, sample_size, m_knots)
