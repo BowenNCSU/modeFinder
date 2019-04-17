@@ -11,4 +11,4 @@ Depends: Rcpp
 Imports: Rcpp
 LinkingTo: Rcpp
 URL: https://github.com/BowenNCSU/modeFinder/
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
