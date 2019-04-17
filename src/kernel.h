@@ -12,7 +12,8 @@ Rcpp::List mode2(std::vector<double> & data,
   Rcpp::List fit = density_r(Rcpp::_["x"] = data, Rcpp::_["n"] = density_points); // Default setting
   double max_y = Rcpp::as<Rcpp::NumericVector>(fit["y"])[0];
   double max_x = Rcpp::as<Rcpp::NumericVector>(fit["x"])[0];
-  for(int i = 0; i < data.size(); i++){
+  int data_size = data.size();
+  for(int i = 0; i < data_size; i++){
     if(Rcpp::as<Rcpp::NumericVector>(fit["y"])[i] > max_y){
       max_y = Rcpp::as<Rcpp::NumericVector>(fit["y"])[i];
       max_x = Rcpp::as<Rcpp::NumericVector>(fit["x"])[i];
