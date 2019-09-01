@@ -2,6 +2,10 @@
 #include <Rcpp.h>
 using namespace std;
 
+// Calcualte the left and right boundary for the "emp_mode"
+//
+//
+
 void set_bound(std::vector<double> & data, 
           Rcpp::Nullable<double> fix_lower, 
           Rcpp::Nullable<double> fix_upper, 
