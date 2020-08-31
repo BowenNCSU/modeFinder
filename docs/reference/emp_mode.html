@@ -172,7 +172,8 @@ Based on the smooth options, this R function returns either simple empirical mod
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Beta'>rbeta</a></span>(<span class='no'>n</span>, <span class='fl'>2</span>, <span class='fl'>5</span>)
 <span class='co'>## Return Bernstein polynomials based mode estimate</span>
-<span class='fu'>emp_mode</span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; The mode estimate is choosen as the maximum point of Bernstein polynomials density estimate.</div><div class='output co'>#&gt; $mode
+<span class='fu'>emp_mode</span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; max_x: 0.200715 prob_mid: 0.038835 prob_left: 0.00354 prob_right: 0
+#&gt; The mode estimate is choosen as the maximum point of Bernstein polynomials density estimate.</div><div class='output co'>#&gt; $mode
 #&gt; [1] 0.2007149
 #&gt; 
 #&gt; $`optimal alpha`
@@ -182,7 +183,7 @@ Based on the smooth options, this R function returns either simple empirical mod
 #&gt; [1] 0.9963385
 #&gt; </div><div class='input'><span class='co'>## Return kenerl density mode estimate</span>
 <span class='fu'>emp_mode</span>(<span class='no'>data</span>, <span class='kw'>smooth_option</span> <span class='kw'>=</span> <span class='st'>"kernel"</span>)</div><div class='output co'>#&gt; $mode
-#&gt; [1] 6.9518e-310
+#&gt; [1] 6.941593e-310
 #&gt; </div><div class='input'><span class='co'>## Return simple empirical mode estimate</span>
 <span class='fu'>emp_mode</span>(<span class='no'>data</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; The mode estimate is choosen as the mid point of interval with maximum difference among knots equally-spaced intervals.</div><div class='output co'>#&gt; $`number of knots`
 #&gt; [1] 1000000

@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // emp_mode
-Rcpp::List emp_mode(std::vector<double> data, Rcpp::Nullable<double> fix_lower, Rcpp::Nullable<double> fix_upper, bool smooth, String smooth_option, bool smooth_density, int density_points, Rcpp::Nullable<int> m_degree, int sample_size, Rcpp::Nullable<int> m_knots);
+Rcpp::List emp_mode(std::vector<double> data, Rcpp::Nullable<double> fix_lower, Rcpp::Nullable<double> fix_upper, bool smooth, Rcpp::String smooth_option, bool smooth_density, int density_points, Rcpp::Nullable<int> m_degree, int sample_size, Rcpp::Nullable<int> m_knots);
 RcppExport SEXP _modeFinder_emp_mode(SEXP dataSEXP, SEXP fix_lowerSEXP, SEXP fix_upperSEXP, SEXP smoothSEXP, SEXP smooth_optionSEXP, SEXP smooth_densitySEXP, SEXP density_pointsSEXP, SEXP m_degreeSEXP, SEXP sample_sizeSEXP, SEXP m_knotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -15,7 +15,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type fix_lower(fix_lowerSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type fix_upper(fix_upperSEXP);
     Rcpp::traits::input_parameter< bool >::type smooth(smoothSEXP);
-    Rcpp::traits::input_parameter< String >::type smooth_option(smooth_optionSEXP);
+    Rcpp::traits::input_parameter< Rcpp::String >::type smooth_option(smooth_optionSEXP);
     Rcpp::traits::input_parameter< bool >::type smooth_density(smooth_densitySEXP);
     Rcpp::traits::input_parameter< int >::type density_points(density_pointsSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<int> >::type m_degree(m_degreeSEXP);

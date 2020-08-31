@@ -28,6 +28,7 @@
 #' emp_mode(data, smooth_option = "kernel")
 #' ## Return simple empirical mode estimate
 #' emp_mode(data, smooth = FALSE) 
+#' @useDynLib modeFinder
 #' @export
 emp_mode <- function(data, fix_lower = NULL, fix_upper = NULL, smooth = TRUE, smooth_option = "Bernstein", smooth_density = FALSE, density_points = 512L, m_degree = NULL, sample_size = 1000L, m_knots = NULL) {
     .Call('_modeFinder_emp_mode', PACKAGE = 'modeFinder', data, fix_lower, fix_upper, smooth, smooth_option, smooth_density, density_points, m_degree, sample_size, m_knots)
