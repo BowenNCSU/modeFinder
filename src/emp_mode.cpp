@@ -915,28 +915,28 @@ Rcpp::List emp_mode_cpp(double & fix_lower, double & fix_upper){
   double Fn_value_1 = cum_index / (double) n;
   double prob_mid = Fn_value_1 - Fn_value_0;
   
-  Rcpp::Rcout << "max_x: " << max_x << " prob_mid: " << prob_mid << " prob_left: " << prob_left << " prob_right: " << prob_right << std::endl;
+  Rcpp::Rcout << std::endl << "maximum point: " << max_x << ", probability around maximum: " << prob_mid << ", probability of left boundary: " << prob_left << ", probability of right boundary: " << prob_right << std::endl;
   
   
   if(max_pvalue > 0.05 || (prob_mid > prob_left && prob_mid > prob_right)){
-    Rcpp::Rcout << "The mode estimate is choosen as the maximum point of Bernstein polynomials density estimate." << std::endl;
+    Rcpp::Rcout << "The mode estimate is chosen as the maximum point of Bernstein polynomials density estimate." << std::endl << std::endl;
     res["mode"] = max_x * (upper - lower) + lower;
   }else if(prob_left > prob_right){
-    Rcpp::Rcout << "The mode estimate is choosen as a boundary point and Anderson-Darling criterion is not satisfied with p-value less than 0.05." << std::endl;
+    Rcpp::Rcout << "The mode estimate is chosen as a boundary point since Anderson-Darling criterion is not satisfied with p-value less than 0.05." << std::endl << std::endl;
     res["mode"] = 0 * (upper - lower) + lower;
   }else if(prob_left < prob_right){
-    Rcpp::Rcout << "The mode estimate is choosen as a boundary point and Anderson-Darling criterion is not satisfied with p-value less than 0.05." << std::endl;
+    Rcpp::Rcout << "The mode estimate is chosen as a boundary point since Anderson-Darling criterion is not satisfied with p-value less than 0.05." << std::endl << std::endl;
     res["mode"] = 1 * (upper - lower) + lower;
   }else{
-    Rcpp::Rcout << "The mode estimate is choosen as a boundary point and Anderson-Darling criterion is not satisfied with p-value less than 0.05." << std::endl;
+    Rcpp::Rcout << "The mode estimate is chosen as a boundary point since Anderson-Darling criterion is not satisfied with p-value less than 0.05." << std::endl << std::endl;
     res["mode"] = floor(rand() / double(RAND_MAX) * 2) * (upper - lower) + lower;
   }
   
   if(do_choose_m){
-    res["optimal alpha"] = max_alpha;
-    res["optimal p-value"] = max_pvalue;
+    res["optimal_alpha"] = max_alpha;
+    res["optimal_p-value"] = max_pvalue;
   }else{
-    res["given degree"] = m;
+    res["given_degree"] = m;
     res["p-value"] = max_pvalue;
   }
   
