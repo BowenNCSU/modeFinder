@@ -3,7 +3,7 @@
 #include <math.h>
 using namespace std;
 
-static double ADtest(int, double *) __attribute__ ((unused));
+
 
 
 

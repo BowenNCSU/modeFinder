@@ -1,8 +1,8 @@
 #include <vector>
 #include <map>
 #include <Rcpp.h>
-#include "lbfgsb.cpp"
-#include "AnDarl.cpp"
+#include "lbfgsb.h"
+#include "AnDarl.h"
 using namespace std;
 
 

@@ -2,10 +2,6 @@
 #include <map>
 using namespace std;
 
-static
-  void setulb(int, int, double *, double *, double *, int *,
-              double *, double *, double, double *,
-              double *, int *, char *, int, int *) __attribute__ ((unused));
 
 
 // http://docs.rexamine.com/R-devel/BLAS_8h.html#ab76361ff6b07fd3d58f2044f43a1cb93
