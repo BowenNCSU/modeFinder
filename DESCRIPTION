@@ -8,7 +8,6 @@ Maintainer: Bowen Liu <bliu17@ncsu.edu>
 Description: Compute the univariate empirical mode via Bernstein polynomials.
 License: GPL (>= 2)
 Depends: Rcpp
-Imports: Rcpp
 LinkingTo: Rcpp
 URL: https://github.com/BowenNCSU/modeFinder/
 RoxygenNote: 7.1.0
