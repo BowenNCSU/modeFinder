@@ -6,23 +6,31 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute the univariate empirical mode via Bernstein polynomials. — emp_mode • modeFinder</title>
+<title>Compute the univariate mode estiamtes via Bernstein polynomials. — emp_mode • modeFinder</title>
+
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,11 +38,11 @@
 
 
 
-<meta property="og:title" content="Compute the univariate empirical mode via Bernstein polynomials. — emp_mode" />
 
-<meta property="og:description" content="Compute the empirical mode estimate based on Bernstein polynomials density function with automated mechanism of choosing appropriate degree of Bernstein polynomials. 
+<meta property="og:title" content="Compute the univariate mode estiamtes via Bernstein polynomials. — emp_mode" />
+<meta property="og:description" content="Compute the mode estimate based on Bernstein polynomials density function with automated mechanism of choosing appropriate degree of Bernstein polynomials. 
 Based on the smooth options, this R function returns either simple empirical mode estimate, kenerl density mode estimate or Bernstein polynomials based mode estimate (default)." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -48,9 +56,10 @@ Based on the smooth options, this R function returns either simple empirical mod
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -64,7 +73,7 @@ Based on the smooth options, this R function returns either simple empirical mod
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeFinder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
       </span>
     </div>
 
@@ -72,7 +81,7 @@ Based on the smooth options, this R function returns either simple empirical mod
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -80,11 +89,10 @@ Based on the smooth options, this R function returns either simple empirical mod
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/BowenNCSU/modeFinder">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/BowenNCSU/modeFinder/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -95,28 +103,35 @@ Based on the smooth options, this R function returns either simple empirical mod
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute the univariate empirical mode via Bernstein polynomials.</h1>
+    <h1>Compute the univariate mode estiamtes via Bernstein polynomials.</h1>
     <small class="dont-index">Source: <a href='https://github.com/BowenNCSU/modeFinder/blob/master/R/RcppExports.R'><code>R/RcppExports.R</code></a></small>
     <div class="hidden name"><code>emp_mode.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-    <p>Compute the empirical mode estimate based on Bernstein polynomials density function with automated mechanism of choosing appropriate degree of Bernstein polynomials.</p> 
+    <p>Compute the mode estimate based on Bernstein polynomials density function with automated mechanism of choosing appropriate degree of Bernstein polynomials.</p> 
 <p>Based on the smooth options, this R function returns either simple empirical mode estimate, kenerl density mode estimate or Bernstein polynomials based mode estimate (default).</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>emp_mode</span>(<span class='no'>data</span>, <span class='kw'>fix_lower</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fix_upper</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>smooth_option</span> <span class='kw'>=</span> <span class='st'>"Bernstein"</span>, <span class='kw'>smooth_density</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>density_points</span> <span class='kw'>=</span> <span class='fl'>512L</span>, <span class='kw'>m_degree</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sample_size</span> <span class='kw'>=</span> <span class='fl'>1000L</span>,
-  <span class='kw'>m_knots</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>emp_mode</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  fix_lower <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fix_upper <span class='op'>=</span> <span class='cn'>NULL</span>,
+  smooth <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  smooth_option <span class='op'>=</span> <span class='st'>"Bernstein"</span>,
+  smooth_density <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  density_points <span class='op'>=</span> <span class='fl'>512L</span>,
+  m_degree <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sample_size <span class='op'>=</span> <span class='fl'>1000L</span>,
+  m_knots <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -146,64 +161,70 @@ Based on the smooth options, this R function returns either simple empirical mod
     </tr>
     <tr>
       <th>density_points</th>
-      <td><p>If <code>smooth = TRUE</code>, a number of equally spaced points for the output density function or not, default is 512.</p></td>
+      <td><p>If <code>smooth = TRUE</code>, a number of equally spaced points for the output density function is provided or not, default is 512.</p></td>
     </tr>
     <tr>
       <th>m_degree</th>
-      <td><p>If <code>smooth = TRUE</code> and <code>smooth_option = "Bernstein"</code>, a degree of Bernstein polynomials; If <code>NA</code> (default), pick the one with maximal p-value until exceeding 0.95; Set a particualr value otherwise.</p></td>
+      <td><p>If <code>smooth = TRUE</code> and <code>smooth_option = "Bernstein"</code>, a degree of Bernstein polynomials is provided or not; If <code>NA</code> (default), pick the one with maximal p-value until exceeding 0.95; Set a particualr value otherwise.</p></td>
     </tr>
     <tr>
       <th>sample_size</th>
-      <td><p>If <code>smooth = TRUE</code> and <code>smooth_option = "Bernstein"</code>, a subsample size used for Anderson-Darling criterion, and default is 1e+03.</p></td>
+      <td><p>If <code>smooth = TRUE</code> and <code>smooth_option = "Bernstein"</code>, a subsample size used for Anderson-Darling criterion is provided or not, and default is 1e+03.</p></td>
     </tr>
     <tr>
       <th>m_knots</th>
-      <td><p>If <code>smooth = TRUE</code> and <code>smooth_option = "kernel"</code>, a number of knots in finding the maximum of empirical density function; If <code>NA</code> (default), set <code>m_knots</code> = sample size of <code>data</code>; Set a particualr value otherwise.</p></td>
+      <td><p>If <code>smooth = TRUE</code> and <code>smooth_option = "kernel"</code>, a number of knots in finding the maximum of empirical density function is provided or not; If <code>NA</code> (default), set <code>m_knots</code> = sample size of <code>data</code>; Set a particualr value otherwise.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An empirical mode of <code>data</code>, a degree of Bernstein polynomials adopted with the maximum p-value and the corresponding maximum p-value of the Anderson-Darling criterion based on the subsample and Bernstein polynomials; <code>NA</code> if not applicable.</p>
-    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://doi.org/10.1016/j.csda.2020.107046'>https://doi.org/10.1016/j.csda.2020.107046</a></p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Bowen Liu, <a href='mailto:bliu17@ncsu.edu'>bliu17@ncsu.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>n</span> <span class='kw'>=</span> <span class='fl'>1e6</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Beta'>rbeta</a></span>(<span class='no'>n</span>, <span class='fl'>2</span>, <span class='fl'>5</span>)
+    <pre class="examples"><div class='input'><span class='va'>n</span> <span class='op'>=</span> <span class='fl'>1e6</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>data</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Beta.html'>rbeta</a></span><span class='op'>(</span><span class='va'>n</span>, <span class='fl'>2</span>, <span class='fl'>5</span><span class='op'>)</span>
 <span class='co'>## Return Bernstein polynomials based mode estimate</span>
-<span class='fu'>emp_mode</span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; max_x: 0.200715 prob_mid: 0.038835 prob_left: 0.00354 prob_right: 0
-#&gt; The mode estimate is choosen as the maximum point of Bernstein polynomials density estimate.</div><div class='output co'>#&gt; $mode
+<span class='fu'>emp_mode</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; maximum point: 0.200715, probability around maximum: 0.038835, probability of left boundary: 0.00354, probability of right boundary: 0
+#&gt; The mode estimate is chosen as the maximum point of Bernstein polynomials density estimate.
+#&gt; </div><div class='output co'>#&gt; $mode
 #&gt; [1] 0.2007149
 #&gt; 
-#&gt; $`optimal alpha`
+#&gt; $optimal_alpha
 #&gt; [1] 0.35
 #&gt; 
-#&gt; $`optimal p-value`
+#&gt; $`optimal_p-value`
 #&gt; [1] 0.9963385
 #&gt; </div><div class='input'><span class='co'>## Return kenerl density mode estimate</span>
-<span class='fu'>emp_mode</span>(<span class='no'>data</span>, <span class='kw'>smooth_option</span> <span class='kw'>=</span> <span class='st'>"kernel"</span>)</div><div class='output co'>#&gt; $mode
-#&gt; [1] 6.941593e-310
+<span class='fu'>emp_mode</span><span class='op'>(</span><span class='va'>data</span>, smooth_option <span class='op'>=</span> <span class='st'>"kernel"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $mode
+#&gt; [1] 0
 #&gt; </div><div class='input'><span class='co'>## Return simple empirical mode estimate</span>
-<span class='fu'>emp_mode</span>(<span class='no'>data</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; The mode estimate is choosen as the mid point of interval with maximum difference among knots equally-spaced intervals.</div><div class='output co'>#&gt; $`number of knots`
+<span class='fu'>emp_mode</span><span class='op'>(</span><span class='va'>data</span>, smooth <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; The mode estimate is choosen as the mid point of interval with maximum difference among knots equally-spaced intervals.</div><div class='output co'>#&gt; $`number of knots`
 #&gt; [1] 1000000
 #&gt; 
 #&gt; $mode
 #&gt; [1] 0.2081525
-#&gt; </div></pre>
+#&gt; </div><div class='input'>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -211,13 +232,16 @@ Based on the smooth options, this R function returns either simple empirical mod
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
