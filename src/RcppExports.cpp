@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // emp_mode
 Rcpp::List emp_mode(std::vector<double> data, Rcpp::Nullable<double> fix_lower, Rcpp::Nullable<double> fix_upper, bool smooth, Rcpp::String smooth_option, bool smooth_density, int density_points, Rcpp::Nullable<int> m_degree, int sample_size, Rcpp::Nullable<int> m_knots);
 RcppExport SEXP _modeFinder_emp_mode(SEXP dataSEXP, SEXP fix_lowerSEXP, SEXP fix_upperSEXP, SEXP smoothSEXP, SEXP smooth_optionSEXP, SEXP smooth_densitySEXP, SEXP density_pointsSEXP, SEXP m_degreeSEXP, SEXP sample_sizeSEXP, SEXP m_knotsSEXP) {

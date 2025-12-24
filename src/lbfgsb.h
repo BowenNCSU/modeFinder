@@ -70,6 +70,7 @@ memory algorithm for bound constrained optimization.
 #include <R_ext/RS.h> /* for F77_CALL */
 #include <R_ext/Linpack.h>
 #include <R_ext/Applic.h>
+#include <R_ext/BLAS.h>
 #include <R_ext/Print.h> /* Rprintf */
 
 #define FALSE_ 0
